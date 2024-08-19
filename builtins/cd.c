@@ -16,6 +16,7 @@ void cd(void)
 		fd = fork();
 		if(fd == 0){
             char l[11]= "/bin/pwd -L";
+			
 			execv("/bin/pwd",l);
         }
 		else if(fd > 0){
