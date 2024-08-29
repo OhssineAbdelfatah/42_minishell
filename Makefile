@@ -11,12 +11,12 @@ MINISHELL_ART = \
 "██║╚██╔╝██║ ██║ ██║╚██╗██║ ██║ ╚════██ ║██╔══██║ ██╔══╝   ██║      ██║     \n"\
 "██║ ╚═╝ ██║ ██║ ██║ ╚████║ ██║ ███████ ║██║  ██║ ███████╗ ███████╗ ███████╗\n"\
 "╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚══════ ╝╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
-"						      By: TILLAS    \033[0m\n"
+"						      By: TILLAS & NolYel   \033[0m\n"
 CFLAGS = -lreadline
 CC = cc
 OBJ = $(CFILES:.c=.o)
 NAME = minishell
-My_lib = libft/libft.a
+My_lib = includes/libft/libft.a
 
 all : ascii_art $(My_lib) $(NAME)
 
@@ -27,11 +27,11 @@ $(NAME) : $(OBJ) $(My_lib)
 	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r" $@
 	$(CC) $^ $(CFLAGS) $(My_lib) -o $@
 
-clean:
-	@make clean -C libft
+clean :
+	@make clean -C includes/libft
 	rm -rf $(OBJ)
 
-ascii_art:
+ascii_art :
 	@echo $(MINISHELL_ART)
 
 fclean : clean

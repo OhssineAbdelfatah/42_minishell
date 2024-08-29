@@ -11,7 +11,7 @@
 
 #include "helper.h"
 #include "struct.h"
-#include "../libft/libft.h"
+#include "libft/libft.h"
 
 
 int ft_strcmp(char *s1, char *s2);

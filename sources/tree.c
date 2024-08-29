@@ -2,7 +2,7 @@
 
 int is_pipe(char *s)
 {
-    if (strlen(s) == 1 && s[0] == '|')
+    if (ft_strlen(s) == 1 && s[0] == '|')
         return(1);
     return(0);
 }

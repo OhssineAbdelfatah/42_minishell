@@ -48,7 +48,7 @@ int check_qoutes(char *s)
 
 void panic(char *str)
 {
-    if (str);
+    if (str)
         dprintf(2, str);
     exit(1);
 }

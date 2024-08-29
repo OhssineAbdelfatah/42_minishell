@@ -129,10 +129,10 @@ int get_end(char *s, int i)
             if (s[i] == '\''|| s[i] == '"')
                 i = get_next_quote(s, i);
             i++;
-            if (is_special(s[i]) && s[i - 1] == 32 || (s[i - 1] <= 13 && s[i - 1] >= 9))
+            if ((is_special(s[i]) && s[i - 1] == 32) || (s[i - 1] <= 13 && s[i - 1] >= 9))
             {
                 i--;
-                while ( i > 0 && s[i] == 32 || (s[i]<= 13 && s[i] >= 9))
+                while ( (i > 0 && s[i] == 32) || (s[i]<= 13 && s[i] >= 9))
                     i--;
                 i++;
                 return(i);
