@@ -26,20 +26,23 @@ int check_qoutes(char *s)
         while(s[i])
         {
             if(s[i] == '"')
+            {
                 if (j == SINGLE)
                     j = SINGLE;
                 else if (j == DOUBLE)
                     j = NONE;
                 else
                     j = DOUBLE;
-            if(s[i] == '\'')
+            }
+            if(s[i] == '\''){
+
                 if (j == DOUBLE)
                     j = DOUBLE;
                 else if (j == SINGLE)
                     j = NONE;
                 else
                     j = SINGLE;
-    
+            }
             i++;
         }
     }
@@ -49,7 +52,7 @@ int check_qoutes(char *s)
 void panic(char *str)
 {
     if (str)
-        dprintf(2, str);
+        dprintf(2, "%s", str);
     exit(1);
 }
 
@@ -75,15 +78,20 @@ void free_mynigga(char **str)
 }
 
 
-int main(int ac, char **av, char **env)
+int main( __unused int ac, __unused char **av, char **env)
 {
-    char *str, *str1;
+    // char *str1;
+    char *str;
     char **my_tokens;
     t_cmd *res;
+    t_io *io;
+    t_io var_io;
+
+
     int i = 0;
     while(1)
     {
-        str = readline("depechez-vous!> ");
+        str = readline(BG"depechez-vous!> "RESET);
         // str = ft_strdup(str1);
         add_history(str);
         my_tokens = NULL;
@@ -96,10 +104,14 @@ int main(int ac, char **av, char **env)
             my_tokens = split_shit(str);
              
             res = root(my_tokens,env);
+            // print tree
             print_tree(res);
-            // write(1, "main IN\n", 9);
             printf("\n");
-            exec(res);
+            io = malloc(sizeof(t_io));
+            var_io.in = 55;
+            var_io.out = 55;
+            io = &var_io;
+            exec(res,io);
             free_tree(res);
             free_mynigga(my_tokens);
 

@@ -109,7 +109,8 @@ char **tokens(char *str)
 
         }
         res[j] = 0;
-    }
+    }else
+        res = NULL;
     return (res);
 }
 

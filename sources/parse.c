@@ -25,9 +25,9 @@ int which_one(char *s)
     if (ft_strlen(s) == 2)
     {
         if (ft_strcmp(s, "<<"))
-            return (i = HERDOC);
+            return (HERDOC);
         if (ft_strcmp(s,">>"))
-            return (i = RED);
+            return (RED);
     }
     if (s[1] == '\0' && (s[0] == '>' || s[0] == '<'))
         i = RED;
@@ -35,6 +35,8 @@ int which_one(char *s)
         i = PIPE;
     else if (s[0] == '$')
         i = ENV_VAR;
+    else
+        i = NAN;
     return(i);
 }
 
@@ -119,7 +121,7 @@ int get_start(char *s, int i)
 
 int get_end(char *s, int i)
 {
-    int j;
+    // int j;
     if (is_special(s[i]))
         return(next_nonspecial(s, i));
     else
@@ -171,7 +173,7 @@ char **split_shit(char *s)
 }
 
 
-int _check_str(char *s)
+int     _check_str(char *s)
 {
     int i = 0;
     if (s)

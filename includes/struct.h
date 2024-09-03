@@ -5,6 +5,10 @@
 typedef struct cmd t_cmd;
 
 
+typedef struct s_io{
+    int in;
+    int out;
+} t_io;
 
 typedef enum ss
 {
@@ -20,7 +24,8 @@ typedef enum typenode
     RED,
     HERDOC,
     ENV_VAR,
-    NONE_NODE
+    NONE_NODE,
+    NAN
 } t_typenode;
 
 

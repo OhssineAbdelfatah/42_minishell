@@ -13,6 +13,9 @@
 #include "struct.h"
 #include "libft/libft.h"
 
+#define BR "\033[1;31m"
+#define BG "\033[1;32m"
+#define RESET    "\033[0m"
 
 int ft_strcmp(char *s1, char *s2);
 int skip_spaces(char *s, int x);
@@ -20,7 +23,7 @@ void exec_cmd(char **tokens, char **env);
 void panic(char *str);
 int ft_strlen1(char *s);
 char **split_shit(char *s);
-void exec(t_cmd *cmd);
+void exec(t_cmd *cmd, t_io *io);
 
 
 # endif
