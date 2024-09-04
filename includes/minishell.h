@@ -2,7 +2,7 @@
 
 #define MINISHELL_H
 #include<stdio.h>
-#include"libft/libft.h"
+#include"./libft/libft.h"
 #include<unistd.h>
 typedef struct s_token t_token;
 
@@ -51,24 +51,23 @@ struct exec_cmd
 struct pipe
 {
     int type;
-    struct cmdleft;
-    struct cmd right;
+    struct cmd *left;
+    struct cmd *right;
 };
 
 struct redirect
 {
     int type;
-    struct cmdcmd;
+    struct cmd *cmd;
     char file;
-    charefile;
     int mode;
     int fd;
 };
 
 struct heredoc {
     int type;
-    struct cmd  cmd;
-    chardelimiter;
+    struct cmd  *cmd;
+    char *delimiter;
     char *content; 
 };
 // executer 
