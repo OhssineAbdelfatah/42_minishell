@@ -4,12 +4,6 @@
 
 typedef struct cmd t_cmd;
 
-
-typedef struct s_io{
-    int in;
-    int out;
-} t_io;
-
 typedef enum ss
 {
     NONE,

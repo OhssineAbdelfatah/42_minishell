@@ -111,7 +111,7 @@ int main( __unused int ac, __unused char **av, char **env)
             var_io.in = 55;
             var_io.out = 55;
             io = &var_io;
-            exec(res,io);
+            exec(res);
             free_tree(res);
             free_mynigga(my_tokens);
 

@@ -23,7 +23,7 @@ void exec_cmd(char **tokens, char **env);
 void panic(char *str);
 int ft_strlen1(char *s);
 char **split_shit(char *s);
-void exec(t_cmd *cmd, t_io *io);
+void exec(t_cmd *cmd);
 
 
 # endif

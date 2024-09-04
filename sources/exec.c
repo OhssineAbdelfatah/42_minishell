@@ -50,47 +50,31 @@ char *cmd_abs_path(char *path,char *cmd)
     return NULL;
 }
 
-void execute_cmd(t_cmd *cmd,__unused t_io *io)
+void execute_cmd(t_cmd *cmd)
 {
     struct exec_cmd *p;
+    p = (struct exec_cmd *)cmd;
+    int pid ;
     char ** cmd_args;
-    // char ** argv;
     char *ss;
 
-    // pid_t pid;  
-    p = (struct exec_cmd *)cmd;
     ss = cmd_abs_path(getenv("PATH"), ft_strdup(p->argv));
     if(!ss)
         panic("Error : command not found\n");
     cmd_args = ft_split(p->argv, 32);
-    // argv = ft_split(ss, 32);
-
-    // builtin(cmd_args, p);
-    // free(ss);
-    // ss = NULL;
-    // if (dstr_len(cmd_args))
-    //     ss = ft_strjoin("/usr/bin/",cmd_args[0]);
-
-    printf("exec %s in{%d} out{%d}\n", ss, io->in, io->out);   
-    // pid = fork();
-    // if(0 == pid)
-    // {
-        // if(io->out != 1 )
-        //     dup2(io->out, 1);
-        // if(io->in != 0 )
-        //     dup2(io->in, 0);
+    pid = fork();
+    if(pid == 0)
+    {
         if( -1 == execve(ss, cmd_args,p->env))
         {
             free(ss);
             panic("minishell : command not found\n");
-            exit(0);
-            // ss = ft_strdup(cmd_args[0]);
-            // if (-1 == execve(ss, cmd_args + 1,p->env))
+            return;
         }
         else    
             printf("giiiiid\n");
-    // }
-    // wait(0);
+    }
+    wait(0);
     free_mynigga(cmd_args);
     free(ss);
     return;
@@ -99,83 +83,70 @@ void execute_cmd(t_cmd *cmd,__unused t_io *io)
 void execute_red (t_cmd *cmd)
 {
     struct red *p;
-    t_io io;
+    int new_fd= 0;
     p = (struct red *)cmd;
-    close(p->fd);
-    printf("type %d,mode %d, file %s \n",p->type, p->mode, p->file);
-    if(open(p->file, O_CREAT | O_RDWR | O_APPEND , 777) < 0){
-    //   fprintf(2, "open %s failed\n", p->file);
-        panic("execred\n");
-      exit(1);
+    int pid = fork();
+    if (pid == 0)
+    {
+        close(p->fd);
+        printf("type %d,mode %d, file %s \n",p->type, p->mode, p->file);
+        if(p->mode == 7)
+            new_fd = open(p->file, O_CREAT | O_RDWR | O_TRUNC , 0777);
+        else if(p->mode == 77)
+            new_fd = open(p->file, O_CREAT | O_RDWR | O_APPEND , 0777);
+        if(new_fd < 0){
+            panic("execred\n");
+            exit(1);
+        }
+        dup2(p->fd, new_fd);
+        close(new_fd);
+        exec(p->cmd);
+        exit(0);
     }
-    exec(p->cmd, &io);
+	wait(0);
 }
 
 
-void execute_pipe (t_cmd *cmd, t_io *io)
+void execute_pipe (t_cmd *cmd)
 {
     struct pipe *pcmd;
-    int p[2]; // this sould pass to left and right node
-    // 0 read
-    int t;
-    int y;
-    // 1 write
+    pcmd = (struct pipe *)cmd; // typecast to pipe struct
 
-    pcmd = (struct pipe *)cmd;
-    printf("exec PIPE\n");    
-    io->in = 0;
-    io->out = 1;
+    int p[2];
     pipe(p);
-    printf("in{%d} out{%d}\n",p[0] ,p[1]);
-    if((t = fork()) == 0){
-      close(p[0]);
-      dup2(p[1],1);
-      close(p[1]);
-      io->out = p[1];
-        printf("before left in{%d} out{%d}\n",io->in ,io->out);
-      exec(pcmd->left, io);
-    //   exit(0);
+
+    int pleft;
+    int pright;
+    if((pleft = fork()) == 0){
+        close(p[0]);
+        dup2(p[1],1);
+        close(p[1]);
+
     }
     // wait(0);
-    if((y = fork()) == 0){
-      close(p[1]);
-      dup2(p[0],0);
-      close(p[0]);
-      io->out = p[0];
-        printf("before right in{%d} out{%d}\n",io->in ,io->out);
-      exec(pcmd->right, io);
-    //   exit(0);
+    if((pright = fork()) == 0){
+        close(p[1]);
+        dup2(p[0],0);
+        close(p[0]);
+        exec(pcmd->right);
     }
     close(p[0]);
     close(p[1]);
-    wait(&t);
-    wait(&y);
-    // while (wait(0) == -1);
 
 }
 
-void exec(t_cmd *cmd, t_io *io)
+void exec(t_cmd *cmd)
 {
     // write(1, "exec IN\n", 9);
     if (!cmd)
         return;
     else if (cmd->type == EXEC)
-        execute_cmd (cmd, io);
+        execute_cmd (cmd);
     else if (cmd->type == PIPE)
-        execute_pipe(cmd, io);
+        execute_pipe(cmd);
     else if (cmd->type == RED)
         execute_red (cmd );
-    // write(1, "exec OUT\n", 10);
 }
-
-// void exec(t_cmd *cmd)
-// {
-//     t_cmd *tmp;
-
-//     tmp = cmd;
-//     while(tmp.)
-// }
-
 
 void free_cmd(t_cmd *cmd)
 {
