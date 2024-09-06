@@ -19,4 +19,7 @@ int which_one(char *s);
 // int skip_nonspaces(char *str, int i);
 //  char *ft_substr(char *str, int start, int end)
 
+
+void free_split(char **str);
+
 # endif

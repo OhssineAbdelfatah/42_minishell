@@ -6,12 +6,14 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <stdbool.h>
 # include <stdlib.h>
 #include <fcntl.h>
 
 #include "helper.h"
+#include "builtins.h"
 #include "struct.h"
-#include "libft/libft.h"
+#include "../libft/libft.h"
 
 #define BR "\033[1;31m"
 #define BG "\033[1;32m"

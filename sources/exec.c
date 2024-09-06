@@ -12,6 +12,8 @@
 //         _export_cmd (str, p);
 // }
 
+
+
 int dstr_len(char **s)
 {
     int i;
@@ -57,11 +59,15 @@ void execute_cmd(t_cmd *cmd)
     int pid ;
     char ** cmd_args;
     char *ss;
-
+    // check bulitin
+    cmd_args = ft_split(p->argv, 32);
     ss = cmd_abs_path(getenv("PATH"), ft_strdup(p->argv));
     if(!ss)
         panic("Error : command not found\n");
-    cmd_args = ft_split(p->argv, 32);
+    if(is_builtin(cmd)){
+        exec_builtin(cmd);
+        return ;
+    }
     pid = fork();
     if(pid == 0)
     {
@@ -138,7 +144,7 @@ void execute_pipe (t_cmd *cmd)
 void exec(t_cmd *cmd)
 {
     // write(1, "exec IN\n", 9);
-    if (!cmd)
+    if (NULL == cmd)
         return;
     else if (cmd->type == EXEC)
         execute_cmd (cmd);

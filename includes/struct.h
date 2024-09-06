@@ -58,4 +58,11 @@ struct heredoc {
     char *content; 
 };
 
+typedef struct s_env_var t_env;
+struct s_env_var {
+    char *key;
+    char *value;
+    t_env *next;
+};
+
 #endif
