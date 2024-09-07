@@ -77,8 +77,11 @@ int exec_builtin(t_cmd *cmd)
     else if(ft_strcmp(cmd_arg[0], "pwd"))
         pwd(cmd);
     else if(ft_strcmp(cmd_arg[0], "env")){
-        t_env ennv = *(init_env(p->env));
-        print_env(&ennv);
+        print_env(ennv);
+    }
+    else if(ft_strcmp(cmd_arg[0], "unset")){
+        if(cmd_arg[1] != NULL)
+        unset_env(&ennv, cmd_arg[1]);
     }
     free_split(cmd_arg);
     return 0;

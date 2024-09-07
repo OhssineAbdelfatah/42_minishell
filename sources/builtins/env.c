@@ -1,5 +1,33 @@
 #include"../../includes/minishell.h"
 
+// void destroy_env(t_env *node){
+    
+// }
+
+
+void destroy_single_env(t_env *node)
+{
+    free(node->key);
+    free(node->value);
+    free(node);
+}
+
+void unset_env(t_env **head, char *key)
+{
+    t_env *tmp;
+
+    tmp = *head;
+    while(tmp->next->next != NULL)
+    {
+        if(ft_strcmp(tmp->next->key , key) == 0){
+            destroy_single_env(tmp->next);
+            tmp->next = tmp->next->next;
+            return ;
+        }
+        tmp = tmp->next ;
+    }
+}
+
 void add_back_env(t_env **head, t_env*node)
 {
     t_env *tmp;
@@ -67,7 +95,11 @@ void print_env(t_env *env)
 // int main(__unused int ac, __unused char **av, char *env[])
 // {
 
-//     t_env myenv;
-//     myenv = *init_env(env);
-//     print_env(&myenv);
+//     t_env *myenv;
+//     myenv = init_env(env);
+//     print_env(myenv);
+//     puts("-------------------------------------");
+//     unset_env(&myenv, "a");
+//     print_env(myenv);
+    
 // }

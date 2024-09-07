@@ -2,6 +2,9 @@
 #define STRUCT_H
 
 
+typedef struct s_env_var t_env;
+typedef struct exec_cmd t_exec_cmd;
+
 typedef struct cmd t_cmd;
 
 typedef enum ss
@@ -33,6 +36,7 @@ struct exec_cmd
     int type;
     char *argv;
     char **env;
+    t_env *ennv ;
 };
 
 struct pipe
@@ -58,7 +62,6 @@ struct heredoc {
     char *content; 
 };
 
-typedef struct s_env_var t_env;
 struct s_env_var {
     char *key;
     char *value;

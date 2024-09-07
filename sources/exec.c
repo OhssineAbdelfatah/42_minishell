@@ -59,15 +59,15 @@ void execute_cmd(t_cmd *cmd)
     int pid ;
     char ** cmd_args;
     char *ss;
-    // check bulitin
+    if(is_builtin(cmd))
+    {
+        exec_builtin(cmd);
+        return ;
+    }
     cmd_args = ft_split(p->argv, 32);
     ss = cmd_abs_path(getenv("PATH"), ft_strdup(p->argv));
     if(!ss)
         panic("Error : command not found\n");
-    if(is_builtin(cmd)){
-        exec_builtin(cmd);
-        return ;
-    }
     pid = fork();
     if(pid == 0)
     {
@@ -147,7 +147,7 @@ void exec(t_cmd *cmd)
     if (NULL == cmd)
         return;
     else if (cmd->type == EXEC)
-        execute_cmd (cmd);
+        execute_cmd(cmd);
     else if (cmd->type == PIPE)
         execute_pipe(cmd);
     else if (cmd->type == RED)

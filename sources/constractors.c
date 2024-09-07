@@ -11,6 +11,7 @@ t_cmd *init_exec(int tp, char *s, char **env)
     res->type = tp;
     res->argv = s;
     res->env = env;
+    res->ennv = init_env(env);
     return((t_cmd *)res);
 }
 

@@ -17,5 +17,6 @@ void add_back_env(t_env **head, t_env*node);
 t_env *init_env(char **env_main);
 void print_env(t_env *env);
 t_env *creat_env(char **pair);
+void unset_env(t_env **head, char *key);
 
 # endif
