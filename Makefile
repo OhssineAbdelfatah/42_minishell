@@ -1,47 +1,52 @@
+CFILES = sources/one.c sources/two.c sources/three.c\
+			sources/constractors.c sources/parse.c \
+			sources/print.c sources/tree.c sources/exec.c\
+			sources/signals/signal.c \
+			sources/builtins/builtins.c sources/builtins/env.c\
+
+
+MINISHELL_ART = \
+"\033[32m\n"\
+"███╗   ███╗ ██╗ ███╗   ██╗ ██╗ ███████ ╗██╗  ██╗ ███████╗ ██╗      ██╗     \n"\
+"████╗ ████║ ██║ ████╗  ██║ ██║ ██╔════ ╝██║  ██║ ██╔════╝ ██║      ██║     \n"\
+"██╔████╔██║ ██║ ██╔██╗ ██║ ██║ ███████ ╗███████║ █████╗   ██║      ██║     \n"\
+"██║╚██╔╝██║ ██║ ██║╚██╗██║ ██║ ╚════██ ║██╔══██║ ██╔══╝   ██║      ██║     \n"\
+"██║ ╚═╝ ██║ ██║ ██║ ╚████║ ██║ ███████ ║██║  ██║ ███████╗ ███████╗ ███████╗\n"\
+"╚═╝     ╚═╝ ╚═╝ ╚═╝  ╚═══╝ ╚═╝ ╚══════ ╝╚═╝  ╚═╝ ╚══════╝ ╚══════╝ ╚══════╝\n"\
+"						      By: TILLAS & NolYel  \033[0m"
+CFLAGS = -Wall -Wextra -Wall
+
+RLFLAGS =	-L/Users/aohssine/goinfre/homebrew/opt/readline/lib -lreadline # tell linker where to look for libs , libs to link 
+RLINCLUDE	=	-I/Users/aohssine/goinfre/homebrew/opt/readline/include  # tell compiler where to find headers
+
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-BUILTINS := builtins/cd.c \
-			# builtins/echo.c \
-			# builtins/env.c \
-			# builtins/exit.c \
-			# builtins/export.c \
-			# builtins/pwd.c \
-			# builtins/unset.c
-SRC = $(BUILTINS) minishell.c 
-HEADER := includes/minishell.h
-RED = \033[0;31m
-GREEN = \033[0;32m
-END = \033[0m
-
-LIBFT_DIR = ./includes/libft
-LIBFT = ./includes/libft/libft.a
-
-OBJ = $(SRC:.c=.o)
+OBJ = $(CFILES:.c=.o)
 NAME = minishell
+My_lib = libft/libft.a
 
+all : ascii_art $(My_lib) $(NAME)
 
-all: $(NAME)
+%.o : %.c Makfile
+	$(CC) $(CFLAGS) -c $(RLINCLUDE) $< -o $@
 
-$(LIBFT) : 
-	@echo "$(GREEN)libft... $(END)"
-	@make -C $(LIBFT_DIR)
+$(My_lib) : 
+	make -C libft
 
-$(NAME) : $(OBJ) $(LIBFT) $(HEADER)
-	@echo "$(GREEN)minishell...$(END)"
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+$(NAME) : $(OBJ) $(My_lib)
+	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r \033[0m" $@
+	$(CC) $^ $(CFLAGS) $(My_lib) $(RLFLAGS) -o $@
 
-%.o : %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+clean :
+	@make clean -C libft
+	rm -rf $(OBJ)
 
-clean:
-	@echo "$(RED)clean libft $(END)"
-	@make -C $(LIBFT_DIR) clean
-	@echo "$(RED)clean push_swap $(END)"
-	rm -fr $(OBJ)   
+ascii_art :
+	@echo $(MINISHELL_ART)
 
-fclean: clean
-	rm -fr $(NAME) $(LIBFT)
+fclean : clean
+	@make fclean -C libft
+	rm -rf $(NAME)
 
-re: fclean all
+re : fclean all
 
-.PHONY : clean
+.PHONY : all clean fclean re

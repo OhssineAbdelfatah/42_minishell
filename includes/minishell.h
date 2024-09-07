@@ -1,94 +1,31 @@
-#ifndef MINISHELL_H
-
+# ifndef MINISHELL_H
 #define MINISHELL_H
-#include<stdio.h>
-#include"./libft/libft.h"
-#include<unistd.h>
-typedef struct s_token t_token;
 
-// aohssine
-struct s_token
-{
-    char *token_value;
-    char *cmd;
-    t_token *left;
-    t_token *right;
-    t_token *parent;
-} ;
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/wait.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdbool.h>
+# include <stdlib.h>
+#include <fcntl.h>
 
-/*ilaasri*/
-typedef struct cmd t_cmd;
+#include "helper.h"
+#include "builtins.h"
+#include "struct.h"
+#include "../libft/libft.h"
 
-typedef enum ss
-{
-    NONE,
-    SINGLE,
-    DOUBLE
-}ss;
+#define BR "\033[1;31m"
+#define BG "\033[1;32m"
+#define RESET    "\033[0m"
 
-typedef enum typenode
-{
-    EXEC,
-    PIPE,
-    REDIRECT,
-    HERDOC,
-    ENV_VAR,
-    NONE_NODE
-} t_typenode;
+int ft_strcmp(char *s1, char *s2);
+int skip_spaces(char *s, int x);
+void exec_cmd(char **tokens, char **env);
+void panic(char *str);
+int ft_strlen1(char *s);
+char **split_shit(char *s);
+void exec(t_cmd *cmd);
 
 
-struct cmd
-{
-    int type;
-};
-
-struct exec_cmd
-{
-    int type;
-    char argv;
-};
-
-struct pipe
-{
-    int type;
-    struct cmd *left;
-    struct cmd *right;
-};
-
-struct redirect
-{
-    int type;
-    struct cmd *cmd;
-    char file;
-    int mode;
-    int fd;
-};
-
-struct heredoc {
-    int type;
-    struct cmd  *cmd;
-    char *delimiter;
-    char *content; 
-};
-// executer 
-/*
-    take a t_cmd based on its type ,
-    i should cast to (herdoc , redirect, pipe , none_node , Env_Var)
-*/
-/* ilaasri */
-
-/***
- * Prototypes
-***/
-
-
-/*
- builtins 
-*/
-void cd(void);
-
-
-// int executer();
-
-
-#endif
+# endif
