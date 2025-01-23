@@ -1,6 +1,6 @@
 # Minishell
 
-Minishell is a minimal implementation of a Unix shell, built as part of the 1337 common core curriculum. It was developed collaboratively by [ohssineabdelfatah](https://github.com/ohssineabdelfatah) and [ilaasri] (https://github.com/iliass-laa). This project showcases our understanding of process management, system calls, and shell scripting.
+Minishell is a minimal implementation of a Unix shell, built as part of the 1337 common core curriculum. It was developed collaboratively by [ohssineabdelfatah](https://github.com/ohssineabdelfatah) and [ilaasri](https://github.com/iliass-laa). This project showcases our understanding of process management, system calls, and shell scripting.
 
 ## Features
 
