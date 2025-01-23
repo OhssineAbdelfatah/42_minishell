@@ -65,7 +65,7 @@ Minishell behaves like a typical Unix shell. Here are some examples:
 
 ## Project Structure
 
-- `src/`: Source code files for Minishell.
+- `sources/`: Source code files for Minishell.
 - `includes/`: Header files.
 - `Makefile`: Build system for the project.
 
